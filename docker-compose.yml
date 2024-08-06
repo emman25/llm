@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  python-app:
+    build:
+      context: ./python
+      dockerfile: Dockerfile
+    volumes:
+      - ./python:/app
+    environment:
+      - HUGGINGFACEHUB_API_TOKEN="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"
+    networks:
+      - llm-network
+    depends_on:
+      - postgres
+  
+  nodejs-api:
+    build:
+      context: ./nodejs
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./nodejs:/usr/src/app
+    environment:
+      - PYTHON_API_URL=http://python-app:5000
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=llm_chat
+      - DB_USER=user
+      - DB_PASSWORD=password
+    networks:
+      - llm-network
+    depends_on:
+      - python-app
+      - postgres
+
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=llm_chat
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - llm-network
+
+networks:
+  llm-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
