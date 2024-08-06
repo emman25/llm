@@ -16,7 +16,7 @@ services:
   
   nodejs-api:
     build:
-      context: ./nodejs
+      context: ./node_api
       dockerfile: Dockerfile
     ports:
       - "3000:3000"

@@ -1,10 +1,10 @@
 from flask import Flask, request, jsonify
-from .app import LLMChat 
+import app 
 
-app = Flask(__name__)
-llm_chat = LLMChat()
+flask_app = Flask(__name__)
+llm_chat = app.LLMChat()
 
-@app.route('/chat', methods=['POST'])
+@flask_app.route('/chat', methods=['POST'])
 def chat():
     data = request.json
     model = data.get('model')
@@ -22,4 +22,4 @@ def chat():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    flask_app.run(host='0.0.0.0', port=5000)
