@@ -1,19 +1,10 @@
-FROM python:3.11.6-alpine3.18
+FROM python:3.11.6-slim-bullseye
 
 WORKDIR /app
 
-RUN apk add --no-cache \
-    build-base \
-    gfortran \
-    openblas-dev \
-    lapack-dev \
-    musl-dev \
-    python3-dev
-
 COPY requirements.txt /app/
 
-RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install --no-cache-dir scikit-learn
+RUN pip install -r requirements.txt
 
 COPY . /app
 

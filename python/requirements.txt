@@ -46,6 +46,7 @@ regex==2024.7.24
 requests==2.31.0
 rich==13.7.1
 safetensors==0.4.4
+scikit-learn==1.5.1
 scipy==1.14.0
 sentence-transformers==3.0.1
 SQLAlchemy==2.0.32
